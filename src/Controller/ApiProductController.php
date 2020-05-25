@@ -20,8 +20,7 @@ class ApiProductController extends AbstractController
      */
     public function index(ProductRepository $productRepository, SerializerInterface $serializer) {
         $products = $productRepository->findAll();
-        $json = $serializer->
-        serialize($products, 'json', ['groups' => 'product:read']);
+        $json = $serializer->serialize($products, 'json', ['groups' => 'product:read']);
         $reponse = new Response($json, 200, [
             "Content-Type" => "application/json"
         ]);

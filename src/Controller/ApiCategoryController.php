@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Product;
-use App\Repository\ProductRepository;
+use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,15 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class ApiProductController extends AbstractController
+class ApiCategoryController extends AbstractController
 {
     /**
-     * @Route("/api/category", name="api_product", methods={"GET"})
+     * @Route("/api/category", name="api_category", methods={"GET"})
      */
-    public function index(ProductRepository $productRepository, SerializerInterface $serializer) {
-        $products = $productRepository->findAll();
-        $json = $serializer->
-        serialize($products, 'json', ['groups' => 'product:read']);
+    public function index(CategoryRepository $categoryRepository, SerializerInterface $serializer) {
+        $categories = $categoryRepository->findAll();
+        $json = $serializer->serialize($categories, 'json', ['groups' => 'category:read']);
         $reponse = new Response($json, 200, [
             "Content-Type" => "application/json"
         ]);
@@ -31,11 +30,11 @@ class ApiProductController extends AbstractController
     /**
      * @Route("/api/category", name="api_category_create", methods={"POST"})
      */
-    public function createCateory(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator) {
+    public function createCategory(Request $request, SerializerInterface $serializer, EntityManagerInterface $em, ValidatorInterface $validator) {
         $jsonRequest = $request->getContent();
         try {
-            $product = $serializer->deserialize($jsonRequest, Product::class, "json");
-            $errors = $validator->validate($product);
+            $category = $serializer->deserialize($jsonRequest, Category::class, "json");
+            $errors = $validator->validate($category);
             if (count($errors) > 0) {
                 return $this->json([$errors, 400]);
             }
@@ -48,10 +47,10 @@ class ApiProductController extends AbstractController
                     ]);
             }
 
-            $em->persist($product);
+            $em->persist($category);
             $em->flush();
 
-            return $this->json($product, 201, [], ['groups' => 'product:read']);
+            return $this->json($category, 201, [], ['groups' => 'category:read']);
         } catch (NotEncodableValueException $e) {
             return $this->json([
                 'status' => 400,
