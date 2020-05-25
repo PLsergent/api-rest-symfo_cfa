@@ -43,7 +43,8 @@ class ApiCategoryController extends AbstractController
 
             if (!$hasAccess) {
                 return $this->json([
-                    'status' => 403
+                    'status' => 403,
+                    'message' => 'Forbidden'
                     ]);
             }
 

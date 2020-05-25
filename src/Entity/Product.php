@@ -24,6 +24,7 @@ class Product
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank(message="Le nom doit être renseigné")
      * @Groups("product:read")
+     * @Groups("category:read")
      */
     private $name;
 
@@ -31,6 +32,7 @@ class Product
      * @ORM\Column(type="string", length=100, nullable=true)
      * @Assert\NotBlank(message="La description doit être renseignée")
      * @Groups("product:read")
+     * @Groups("category:read")
      */
     private $description;
 
