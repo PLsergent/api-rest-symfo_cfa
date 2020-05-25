@@ -1,4 +1,5 @@
 # Gestion de catalogue V0
+Basic project to implement an API REST using symfony.
 
 ### Installation :
 
